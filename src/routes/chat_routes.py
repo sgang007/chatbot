@@ -1,5 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel
+from typing import List, Dict
 from src.services.response_service import ResponseGenerator
 from src.database.config import get_db
 from src.models.chat import Chat
