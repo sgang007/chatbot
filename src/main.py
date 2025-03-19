@@ -1,3 +1,8 @@
+"""
+Main application module for the Chatbot API.
+Configures FastAPI application, middleware, and routes.
+"""
+
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import nltk
@@ -31,4 +36,5 @@ app.include_router(chat_routes.router, prefix="/chat", tags=["Chat"])
 
 @app.get("/")
 async def root():
+    """Root endpoint returning welcome message."""
     return {"message": "Welcome to the Chatbot API"}
