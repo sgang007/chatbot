@@ -1,6 +1,7 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 import nltk
+from src.routes import nlp_routes
 
 # Download required NLTK datasets
 nltk.download('punkt')
@@ -22,6 +23,9 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+# Include routers
+app.include_router(nlp_routes.router, prefix="/nlp", tags=["NLP"])
 
 @app.get("/")
 async def root():
