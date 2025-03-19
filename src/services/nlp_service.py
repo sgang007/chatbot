@@ -65,18 +65,30 @@ class NLPProcessor:
 
     def humanize_response(self, text: str) -> str:
         """Convert formal text into more conversational format"""
-        sentences = sent_tokenize(text)
+        # First, replace formal words with conversational alternatives
+        replacements = {
+            "additionally": "also",
+            "furthermore": "also",
+            "moreover": "plus",
+            "consequently": "so",
+            "therefore": "so",
+            "thus": "so",
+            "nevertheless": "but",
+            "however": "but",
+            "in addition": "also",
+            "in conclusion": "finally"
+        }
         
-        # Simple transformation rules
+        result = text.lower()
+        for formal, casual in replacements.items():
+            result = result.replace(formal.lower(), casual)
+        
+        # Capitalize sentences
+        sentences = sent_tokenize(result)
+        result = ". ".join(s.capitalize() for s in sentences)
+        
+        # Add conversational connectors between sentences
         if len(sentences) > 1:
-            # Join sentences with conversational connectors
-            response = " Well, ".join(sentences)
-        else:
-            response = text
-            
-        # Add conversational touches
-        response = response.replace(" additionally ", " also ")
-        response = response.replace(" furthermore ", " also ")
-        response = response.replace(" moreover ", " plus ")
+            result = result.replace(". ", ". Well, ", result.count(". ") - 1)
         
-        return response
+        return result
